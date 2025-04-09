@@ -185,7 +185,7 @@ class VisitViewModel(
 
     // Factory for creating ViewModel
     class Factory(
-        private val visitRepository: VisitRepository = VisitRepository.getInstance(ParkRepository.getInstance()),
+        private val visitRepository: VisitRepository,
         private val parkSearchViewModel: ParkSearchViewModel
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")

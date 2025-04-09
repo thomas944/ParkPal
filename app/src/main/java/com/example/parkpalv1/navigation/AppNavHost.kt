@@ -11,7 +11,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.parkpalv1.data.repository.OpenRouterRepository
 import com.example.parkpalv1.data.repository.ParkRepository
+import com.example.parkpalv1.data.repository.VisitRepository
 import com.example.parkpalv1.screens.ParkDetailScreen
 import com.example.parkpalv1.ui.screens.HomeScreen
 import com.example.parkpalv1.ui.screens.LeaderboardScreen
@@ -27,6 +29,9 @@ import com.example.parkpalv1.ui.viewmodel.ParkSearchViewModel
 import com.example.parkpalv1.ui.viewmodel.PlanViewModel
 import com.example.parkpalv1.ui.viewmodel.VisitViewModel
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 sealed class Screen(val route: String) {
     object Welcome : Screen("welcome")
@@ -52,18 +57,22 @@ fun AppNavHost(
 ) {
 
     val parkRepository = remember { ParkRepository.getInstance() }
+    val visitRepository = remember { VisitRepository.getInstance(parkRepository) }
+    val openRouterRepository = remember { OpenRouterRepository.getInstance() }
 
-    // Create view models with the shared repository
     val parkSearchViewModel: ParkSearchViewModel = viewModel(
         factory = ParkSearchViewModel.Factory(repository = parkRepository)
     )
 
     val visitViewModel: VisitViewModel = viewModel(
-        factory = VisitViewModel.Factory(parkSearchViewModel = parkSearchViewModel)
+        factory = VisitViewModel.Factory(
+            visitRepository = visitRepository,
+            parkSearchViewModel = parkSearchViewModel
+        )
     )
 
     val planViewModel: PlanViewModel = viewModel(
-        factory = PlanViewModel.Factory()
+        factory = PlanViewModel.Factory(openRouterRepository = openRouterRepository)
     )
 
     val newsViewModel: NewsViewModel = viewModel(
@@ -92,6 +101,10 @@ fun AppNavHost(
                 onLoginSuccess = {
                     navController.navigate(Screen.Home.route) {
                         popUpTo(Screen.Welcome.route) { inclusive = true}
+                        CoroutineScope(Dispatchers.Main).launch {
+                            visitRepository.fetchVisitedParks()
+
+                        }
                     }
                 },
                 onBackClick = {
@@ -106,6 +119,10 @@ fun AppNavHost(
                 onRegisterSuccess = {
                     navController.navigate(Screen.Home.route) {
                         popUpTo(Screen.Welcome.route) { inclusive = true}
+                        CoroutineScope(Dispatchers.Main).launch {
+                            visitRepository.fetchVisitedParks()
+
+                        }
                     }
                 },
                 onBackClick = {

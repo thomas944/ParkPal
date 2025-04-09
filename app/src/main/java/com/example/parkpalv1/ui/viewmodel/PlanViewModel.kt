@@ -171,11 +171,11 @@ class PlanViewModel(
     }
 
 
-    class Factory : ViewModelProvider.Factory {
+    class Factory(private val openRouterRepository: OpenRouterRepository) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(PlanViewModel::class.java)) {
-                return PlanViewModel(OpenRouterRepository.getInstance()) as T
+                return PlanViewModel(openRouterRepository) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

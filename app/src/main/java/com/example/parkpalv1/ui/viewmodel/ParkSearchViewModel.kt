@@ -146,7 +146,7 @@ class ParkSearchViewModel(
     fun getParkById(parkId: String) = repository.getParkById(parkId)
 
     // Factory for creating ViewModel
-    class Factory(private val repository: ParkRepository = ParkRepository.getInstance()) : ViewModelProvider.Factory {
+    class Factory(private val repository: ParkRepository) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ParkSearchViewModel::class.java)) {
