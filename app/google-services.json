@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "226371650550",
+    "project_id": "parkpal-a02d7",
+    "storage_bucket": "parkpal-a02d7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226371650550:android:8932fb72399f537486fdd7",
+        "android_client_info": {
+          "package_name": "com.example.parkpalv1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnT6qsUy6dM-YTBWzAnnAwK_FZoh-EYxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
