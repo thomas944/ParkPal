@@ -170,10 +170,16 @@ class VisitViewModel(
             }
         }
     }
-    fun syncVisitedParksWithSearchViewModel(parkSearchViewModel: ParkSearchViewModel) {
+    fun syncVisitedParksWithSearchViewModel() {
+        loadVisitedParks()
         viewModelScope.launch {
-            val visitedParkIds = visitedParks.value.map { it.id }.toSet()
-            parkSearchViewModel.updateParksWithVisitStatus(visitedParkIds)
+            parkSearchViewModel.allParksLoaded.collect { loaded ->
+                if (loaded) {
+                    val visitedParkIds = visitedParks.value.map { it.id }.toSet()
+                    parkSearchViewModel.updateParksWithVisitStatus(visitedParkIds)
+                    Log.d("Test", "Completed syncing")
+                }
+            }
         }
 
     }

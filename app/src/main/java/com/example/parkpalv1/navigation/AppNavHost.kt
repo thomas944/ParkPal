@@ -103,6 +103,7 @@ fun AppNavHost(
                         popUpTo(Screen.Welcome.route) { inclusive = true}
                         CoroutineScope(Dispatchers.Main).launch {
                             visitRepository.fetchVisitedParks()
+                            visitViewModel.syncVisitedParksWithSearchViewModel()
 
                         }
                     }
@@ -121,6 +122,7 @@ fun AppNavHost(
                         popUpTo(Screen.Welcome.route) { inclusive = true}
                         CoroutineScope(Dispatchers.Main).launch {
                             visitRepository.fetchVisitedParks()
+                            visitViewModel.syncVisitedParksWithSearchViewModel()
 
                         }
                     }
